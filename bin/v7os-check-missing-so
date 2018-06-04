@@ -1,0 +1,15 @@
+#!/bin/sh
+
+for i in /bin /sbin /lib /libexec /usr/bin /usr/sbin /usr/lib /usr/libexec
+do
+    for j in `find $i -type d`
+    do
+        ldd $j/* 2>/dev/null | grep found > /dev/null 2>&1
+        if [ $? == 0 ];then
+            echo "Missing so found in $j:"
+            ldd $j/* 2>/dev/null | grep found 2>/dev/null
+        fi
+    done
+
+done
+
